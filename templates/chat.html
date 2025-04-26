@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+    <div class="chat-container">
+        <div id="messages" class="messages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        // configure marked to sanitize HTML and enable markdown
+        marked.setOptions({
+            gfm: true,
+            breaks: true,
+            sanitize: true
+        });
+
+        // configure MathJax for LaTex, if necessary
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+
+        // store conversation history in memory
+        let conversationHistory = [];
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const messages = document.getElementById('messages');
+            
+            if (input.value.trim() === '') return;
+            
+            // store user's message
+            const userMessage = input.value.trim();
+            
+            // add user message to the chat
+            const userMessageElement = document.createElement('div');
+            userMessageElement.className = 'message user-message';
+            userMessageElement.textContent = userMessage;
+            messages.appendChild(userMessageElement);
+            
+            // add user messageto conversation history
+            conversationHistory.push({
+                role: 'user',
+                content: userMessage
+            });
+            
+            // clear input
+            input.value = '';
+            
+            try {
+                // show loading animation while response is being generated
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.className = 'message bot-message loading-dots';
+                loadingIndicator.innerHTML = `
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                `;
+                messages.appendChild(loadingIndicator);
+                messages.scrollTop = messages.scrollHeight;
+                
+                // send message to API
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        message: userMessage,
+                        history: conversationHistory 
+                    })
+                });
+                
+                // remove loading indicator
+                messages.removeChild(loadingIndicator);
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                const data = await response.json();
+                
+                // add bot response to history
+                conversationHistory.push({
+                    role: 'assistant',
+                    content: data.response
+                });
+                
+                // add bot response to the chat
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot-message';
+                messages.appendChild(botMessage);
+                
+                let currentText = '';
+                const responseText = data.response;
+                
+                const typeWriter = () => {
+                    if (currentText.length < responseText.length) {
+                        currentText += responseText.charAt(currentText.length);
+                        botMessage.innerHTML = marked.parse(currentText);
+                        if (window.MathJax) {
+                            window.MathJax.typesetPromise([botMessage]).catch((err) => console.log('MathJax error:', err));
+                        }
+                        setTimeout(typeWriter, 5);
+                    }
+                    messages.scrollTop = messages.scrollHeight;
+                };
+                
+                typeWriter();
+            } catch (error) {
+                // handle error
+                console.error('Error:', error);
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message bot-message';
+                errorMessage.textContent = 'Sorry, I encountered an error. Please try again.';
+                messages.appendChild(errorMessage);
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        // allow sending message with Enter key
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+{% endblock %}

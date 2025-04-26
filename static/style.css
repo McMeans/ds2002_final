@@ -1,0 +1,377 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Special+Gothic+Expanded+One&display=swap');
+
+html {
+    background: linear-gradient(to bottom right, #3d4a2b, #29321c);
+    height: 100vh;
+    color: #fff;
+    overflow: hidden;
+    font-family: "Inter", sans-serif;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
+.header {
+    text-align: center;
+}
+.header a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Special Gothic Expanded One", sans-serif;
+}
+
+.tabs {
+    margin-top: -5px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tabs a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out;
+    display: inline-block;
+}
+.tabs a:hover {
+    color: #d4d4d4;
+    font-weight: bold;
+}
+
+.content {
+    max-width: 1000px;
+    height: 76vh;
+    margin: auto;
+    padding: 20px;
+    border-radius: 20px;
+    overflow-y: auto;
+    color: #fff;
+    background-color: rgba(120, 145, 84, 0.4);
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.10);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.footer {
+    text-align: center;
+    color: #5e7242;
+}
+
+.footer a {
+    color: #5e7242;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out;
+}
+.footer a:hover {
+    color: #6d854d;
+    font-weight: bold;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin: 5px 0;
+}
+
+.message p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.message code {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.message pre {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
+.message pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+.message ul, .message ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.message li {
+    margin: 5px 0;
+}
+
+.message blockquote {
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+    margin: 10px 0;
+    padding-left: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.user-message {
+    background-color: rgba(255, 255, 255, 0.2);
+    align-self: flex-end;
+}
+
+.bot-message {
+    background-color: rgba(255, 255, 255, 0.1);
+    align-self: flex-start;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.input-container input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-container input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.input-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-container button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.message a {
+    color: #dccbb1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.message a:hover {
+    color: #eddec8;
+    text-decoration: underline;
+}
+
+.loading-dots {
+    display: flex;
+    gap: 4px;
+    padding: 10px 15px;
+}
+
+.loading-dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: loading 1.4s infinite ease-in-out;
+}
+
+.loading-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes loading {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    }
+    40% { 
+        transform: scale(1);
+    }
+}
+
+.home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    gap: 20px;
+}
+
+.home-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-family: "Special Gothic Expanded One", sans-serif;
+}
+
+.home-content p {
+    font-size: 1.2em;
+    max-width: 600px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.chat-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.chat-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.about-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    text-align: center;
+}
+
+.about-section {
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.about-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.about-section p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.about-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.about-section li {
+    margin-bottom: 10px;
+    padding-left: 25px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.about-section li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.about-section a {
+    color: #dccbb1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.about-section a:hover {
+    color: #eddec8;
+    text-decoration: underline;
+}
+
+.about-section ul ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}

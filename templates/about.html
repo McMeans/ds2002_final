@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <div class="about-content">
+        <h1>About Guy</h1>
+        
+        <section class="about-section">
+            <h2>How It Works</h2>
+            <p>Guy is an AI-powered cooking chatbot, meant to give you recipes based on your preferences. Here's how it works:</p>
+            <ul>
+                <li>Users can start a conversation by clicking the "Start Chatting" button on the home page, or by clicking the "Chat" tab</li>
+                <li>
+                    Given a prompt, the following will occur:
+                    <ul>
+                        <li>First, prompts are processed through an <a href="https://github.com/josephrmartinez/recipe-dataset" target="_blank">internal database</a> to find matching recipes</li>
+                        <li>If no matches are found, the prompt is sent to <a href="https://spoonacular.com/food-api" target="_blank">spoonacular API</a> to get a response</li>
+                        <li>The database/API response is processed through Gemini 1.5-pro, where a message is generated and returned to the user</li>
+                    </ul>
+                </li>
+                <li>
+                    The system maintains context throughout the conversation, so you can follow up previous messages
+                    <ul>
+                        <li>But doesn't save... so don't expect it to come back to the same conversation when you refresh the page</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>Sources & Credits</h2>
+            <ul>
+                <li>Built using Python and Flask</li>
+                <li>Fonts provided by <a href="https://fonts.google.com/" target="_blank">Google Fonts</a></li>
+                <li>Built by <a href="https://lukemcmeans.com" target="_blank">Luke McMeans</a> (2025)</li>
+            </ul>
+        </section>
+    </div>
+{% endblock %}
