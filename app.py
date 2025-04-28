@@ -30,10 +30,8 @@ def chat_api():
         if not user_message:
             return jsonify({'error': 'No message provided'}), 400
         
-        # search for relevant recipes, prioritize imported data
-        recipes = recipe_service.search_recipes_db(user_message)
-        if not recipes:
-            recipes = recipe_service.search_spoonacular(user_message)
+        # retrieve recipes
+        recipes = recipe_service.search_recipes(user_message)
         
         # generate response using Gemini
         context = {'recipes': recipes} if recipes else None

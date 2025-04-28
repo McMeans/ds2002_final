@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import ast
 from typing import List, Dict, Any
 import requests
 from dotenv import load_dotenv
@@ -18,7 +19,6 @@ class RecipeService:
         try:
             # split query into each word/term
             search_terms = [term.strip() for term in query.lower().split() if len(term.strip()) > 2]
-            
             if not search_terms:
                 return []
             
@@ -43,6 +43,7 @@ class RecipeService:
             
             # connect to db and find matches
             conn = sqlite3.connect(self.db_path)
+            conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute(sql_query, params)
             recipes = cursor.fetchall()
@@ -50,8 +51,18 @@ class RecipeService:
             
             # return matches, if any
             if recipes:
-                columns = [description[0] for description in cursor.description]
-                results = [dict(zip(columns, recipe)) for recipe in recipes]
+                results = []
+                for recipe in recipes:
+                    # Convert ingredients from Python list string to actual list
+                    try:
+                        ingredients = ast.literal_eval(recipe['ingredients']) if recipe['ingredients'] else []
+                    except (SyntaxError, ValueError):
+                        # If parsing fails, treat it as a single string
+                        ingredients = [recipe['ingredients']] if recipe['ingredients'] else []
+                    
+                    recipe_dict = dict(recipe)
+                    recipe_dict['ingredients'] = ingredients
+                    results.append(recipe_dict)
                 return results
             return []
         except Exception as e:
@@ -81,3 +92,13 @@ class RecipeService:
             # error handling
             print(f"Error calling Spoonacular API: {e}")
             return []
+
+    def search_recipes(self, query: str) -> List[Dict[str, Any]]:
+        # try local database
+        results = self.search_recipes_db(query)
+        
+        # try api if no results
+        if not results:
+            results = self.search_spoonacular(query)
+            
+        return results
