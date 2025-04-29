@@ -53,11 +53,11 @@ class RecipeService:
             if recipes:
                 results = []
                 for recipe in recipes:
-                    # Convert ingredients from Python list string to actual list
+                    # convert ingredients from python list string to actual list
                     try:
                         ingredients = ast.literal_eval(recipe['ingredients']) if recipe['ingredients'] else []
                     except (SyntaxError, ValueError):
-                        # If parsing fails, treat it as a single string
+                        # if parsing fails, treat it as a single string
                         ingredients = [recipe['ingredients']] if recipe['ingredients'] else []
                     
                     recipe_dict = dict(recipe)
