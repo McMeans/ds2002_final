@@ -35,8 +35,14 @@
             }
         };
 
-        // store conversation history in memory
+        // store conversation history in memory for this session
         let conversationHistory = [];
+
+        // clear messages and history when page loads
+        window.addEventListener('load', function() {
+            conversationHistory = [];
+            document.getElementById('messages').innerHTML = '';
+        });
 
         async function sendMessage() {
             const input = document.getElementById('user-input');
@@ -53,7 +59,7 @@
             userMessageElement.textContent = userMessage;
             messages.appendChild(userMessageElement);
             
-            // add user messageto conversation history
+            // add user message to conversation history
             conversationHistory.push({
                 role: 'user',
                 content: userMessage
