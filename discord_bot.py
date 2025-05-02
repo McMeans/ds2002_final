@@ -55,8 +55,9 @@ async def chat(ctx, *, message):
                 'content': response
             })
             
-            # send response
-            await ctx.send(response)
+            # send responses in 2000 character chunks
+            for chunk in [response[i:i+2000] for i in range(0, len(response), 2000)]:
+                await ctx.send(chunk)
             
         except Exception as e:
             # handle error
