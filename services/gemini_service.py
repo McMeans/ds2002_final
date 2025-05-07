@@ -56,6 +56,10 @@ class GeminiService:
             response = self.model.generate_content(prompt)
             return response.text
         except Exception as e:
-            # handle error in generation
+            # handle quota exceeded error specifically
+            if "429" in str(e) and "quota" in str(e).lower():
+                raise Exception("Gemini API quota exceeded")
+            
+            # handle other errors
             print(f"Error generating Gemini response: {e}")
             return "I apologize, but I'm having trouble processing your request right now. Please try again later." 

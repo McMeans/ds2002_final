@@ -33,15 +33,42 @@ def chat_api():
         # retrieve recipes
         recipes = recipe_service.search_recipes(user_message)
         
-        # generate response using Gemini
-        context = {'recipes': recipes} if recipes else None
-        
-        response = gemini_service.generate_response(
-            user_message, 
-            context,
-            conversation_history
-        )
-        return jsonify({'response': response})
+        try:
+            # try to generate response using Gemini
+            context = {'recipes': recipes} if recipes else None
+            response = gemini_service.generate_response(
+                user_message, 
+                context,
+                conversation_history
+            )
+            return jsonify({'response': response})
+        except Exception as e:
+            # if Gemini fails, format and return recipe information directly
+            if recipes:
+                formatted_response = "Here are some recipes I found:\n\n"
+                for recipe in recipes:
+                    formatted_response += f"## {recipe.get('title', 'Untitled Recipe')}\n\n"
+                    
+                    # Add ingredients
+                    if 'ingredients' in recipe:
+                        formatted_response += "### Ingredients:\n"
+                        if isinstance(recipe['ingredients'], list):
+                            for ingredient in recipe['ingredients']:
+                                formatted_response += f"- {ingredient}\n"
+                        else:
+                            formatted_response += f"- {recipe['ingredients']}\n"
+                    
+                    # Add instructions
+                    if 'instructions' in recipe:
+                        formatted_response += "\n### Instructions:\n"
+                        formatted_response += f"{recipe['instructions']}\n"
+                    
+                    formatted_response += "\n---\n\n"
+                
+                return jsonify({'response': formatted_response})
+            else:
+                return jsonify({'response': "I couldn't find any recipes matching your request. Could you try rephrasing your question?"})
+            
     except Exception as e:
         # error in generation
         print(f"Error in chat API: {e}")
