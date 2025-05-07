@@ -14,7 +14,7 @@ class GeminiService:
         genai.configure(api_key=self.api_key)
         
         # retrieve model
-        self.model = genai.GenerativeModel('models/gemini-1.5-pro')
+        self.model = genai.GenerativeModel('models/gemini-2.0-flash')
         
         # starting prompt to guide the model's behavior
         self.system_prompt = """You are a helpful cooking assistant (named 'Guy') that can only provide information about recipes. 

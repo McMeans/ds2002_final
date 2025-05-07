@@ -49,7 +49,7 @@ def chat_api():
                 for recipe in recipes:
                     formatted_response += f"## {recipe.get('title', 'Untitled Recipe')}\n\n"
                     
-                    # Add ingredients
+                    # add ingredients
                     if 'ingredients' in recipe:
                         formatted_response += "### Ingredients:\n"
                         if isinstance(recipe['ingredients'], list):
@@ -58,7 +58,7 @@ def chat_api():
                         else:
                             formatted_response += f"- {recipe['ingredients']}\n"
                     
-                    # Add instructions
+                    # add instructions
                     if 'instructions' in recipe:
                         formatted_response += "\n### Instructions:\n"
                         formatted_response += f"{recipe['instructions']}\n"
